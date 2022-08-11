@@ -26,17 +26,17 @@ fn read_and_wite() {
     let _ = umya_spreadsheet::writer::xlsx::write(&book, path);
 }
 
-#[test]
-fn read_and_wite_with_password() {
-    // reader
-    let path = std::path::Path::new("./tests/test_files/aaa.xlsx");
-    let mut book = umya_spreadsheet::reader::xlsx::read(path).unwrap();
-    read_and_wite_method(&mut book);
-
-    // writer
-    let path = std::path::Path::new("./tests/result_files/bbb_password.xlsx");
-    let _ = umya_spreadsheet::writer::xlsx::write_with_password(&book, path, "password");
-}
+// #[test]
+// fn read_and_wite_with_password() {
+//     // reader
+//     let path = std::path::Path::new("./tests/test_files/aaa.xlsx");
+//     let mut book = umya_spreadsheet::reader::xlsx::read(path).unwrap();
+//     read_and_wite_method(&mut book);
+//
+//     // writer
+//     let path = std::path::Path::new("./tests/result_files/bbb_password.xlsx");
+//     let _ = umya_spreadsheet::writer::xlsx::write_with_password(&book, path, "password");
+// }
 
 #[test]
 fn wite_with_password() {
