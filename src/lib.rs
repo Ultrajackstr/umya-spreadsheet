@@ -128,7 +128,6 @@ extern crate zip;
 extern crate base64;
 extern crate byteorder;
 extern crate cfb;
-extern crate crypto;
 extern crate getrandom;
 
 #[macro_use]

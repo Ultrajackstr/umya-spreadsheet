@@ -1,9 +1,6 @@
 use super::driver;
-use helper::crypt::*;
 use std::fs;
-use std::fs::File;
 use std::io;
-use std::io::Read;
 use std::path::Path;
 use std::string::FromUtf8Error;
 use structs::Spreadsheet;
@@ -238,70 +235,5 @@ pub fn write<P: AsRef<Path>>(spreadsheet: &Spreadsheet, path: P) -> Result<(), X
         }
     }
     fs::rename(path_tmp, path)?;
-    Ok(())
-}
-
-/// write spreadsheet file with password.
-/// # Arguments
-/// * `spreadsheet` - Spreadsheet structs object.
-/// * `path` - file path to save.
-/// * `password` - password.
-/// # Return value
-/// * `Result` - OK is void. Err is error message.
-/// # Examples
-/// ```
-/// let mut book = umya_spreadsheet::new_file();
-/// let path = std::path::Path::new("./tests/result_files/zzz_password.xlsx");
-/// let _ = umya_spreadsheet::writer::xlsx::write_with_password(&book, path, "password");
-/// ```
-pub fn write_with_password<P: AsRef<Path>>(
-    spreadsheet: &Spreadsheet,
-    path: P,
-    password: &str,
-) -> Result<(), XlsxError> {
-    let extension = path.as_ref().extension().unwrap().to_str().unwrap();
-    let path_tmp = path
-        .as_ref()
-        .with_extension(format!("{}{}", extension, "tmp"));
-    let buffer = match make_buffer(spreadsheet) {
-        Ok(v) => v,
-        Err(v) => {
-            fs::remove_file(path_tmp)?;
-            return Err(v);
-        }
-    };
-
-    // set password
-    encrypt(&path_tmp, &buffer, password);
-
-    fs::rename(path_tmp, path)?;
-    Ok(())
-}
-
-/// write spreadsheet file with password.
-/// # Arguments
-/// * `from_path` - file path from readfile.
-/// * `to_path` - file path to save.
-/// * `password` - password.
-/// # Return value
-/// * `Result` - OK is void. Err is error message.
-/// # Examples
-/// ```
-/// let from_path = std::path::Path::new("./tests/test_files/aaa.xlsx");
-/// let to_path = std::path::Path::new("./tests/result_files/zzz_password2.xlsx");
-/// let _ = umya_spreadsheet::writer::xlsx::set_password(&from_path, &to_path, "password");
-/// ```
-pub fn set_password<P: AsRef<Path>>(
-    from_path: P,
-    to_path: P,
-    password: &str,
-) -> Result<(), XlsxError> {
-    let mut file = File::open(from_path).unwrap();
-    let mut buffer = Vec::new();
-    let _ = file.read_to_end(&mut buffer).unwrap();
-
-    // set password
-    encrypt(&to_path, &buffer, password);
-
     Ok(())
 }
