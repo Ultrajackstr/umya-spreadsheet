@@ -1,3 +1,5 @@
+use std::error::Error;
+use std::fmt;
 use std::fs::File;
 use std::io;
 use std::path::Path;
@@ -5,13 +7,14 @@ use std::string::FromUtf8Error;
 use std::sync::Arc;
 use std::sync::RwLock;
 
-use super::driver;
 use structs::drawing::Theme;
 use structs::raw::RawWorksheet;
 use structs::SharedStringTable;
 use structs::Spreadsheet;
 use structs::Stylesheet;
 use structs::Worksheet;
+
+use super::driver;
 
 pub(crate) mod chart;
 pub(crate) mod comment;
@@ -60,6 +63,20 @@ impl From<FromUtf8Error> for XlsxError {
         XlsxError::Uft8(err)
     }
 }
+
+impl fmt::Display for XlsxError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        use self::XlsxError::*;
+        match self {
+            Io(i) => write!(f, "IoError: {}", i),
+            Xml(s) => write!(f, "XmlError: {}", s),
+            Zip(s) => write!(f, "ZipError: {}", s),
+            Uft8(s) => write!(f, "Uft8Error: {}", s),
+        }
+    }
+}
+
+impl Error for XlsxError {}
 
 /// read spreadsheet from arbitrary reader.
 /// # Arguments
@@ -162,7 +179,7 @@ pub(crate) fn raw_to_serialize_by_worksheet(
         shared_string_table,
         stylesheet,
     )
-    .unwrap();
+        .unwrap();
 
     match raw_data_of_worksheet.get_worksheet_relationships() {
         Some(v) => {
@@ -175,7 +192,7 @@ pub(crate) fn raw_to_serialize_by_worksheet(
                             relationship.get_raw_file(),
                             raw_data_of_worksheet.get_drawing_relationships(),
                         )
-                        .unwrap();
+                            .unwrap();
                     }
                     // comment
                     "http://schemas.openxmlformats.org/officeDocument/2006/relationships/comments" => {
@@ -193,7 +210,7 @@ pub(crate) fn raw_to_serialize_by_worksheet(
                             relationship.get_raw_file(),
                             raw_data_of_worksheet.get_vml_drawing_relationships(),
                         )
-                        .unwrap();
+                            .unwrap();
                     }
                     _ => {}
                 }
