@@ -352,6 +352,9 @@ impl WorksheetDrawing {
                         }
                     }
                     b"xdr:twoCellAnchor" => {
+                        if ole_objects.get_ole_object_mut().is_empty() {
+                            return;
+                        }
                         if is_alternate_content {
                             ole_objects.get_ole_object_mut()[ole_index]
                                 .get_two_cell_anchor_mut()

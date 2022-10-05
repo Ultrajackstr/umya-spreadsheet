@@ -1,3 +1,5 @@
+use std::io::{Error, ErrorKind};
+use reader::xlsx::XlsxError;
 use super::Range;
 
 #[derive(Clone, Default, Debug)]
@@ -28,7 +30,7 @@ impl Address {
         self
     }
 
-    pub fn set_address<S: Into<String>>(&mut self, value: S) -> &mut Address {
+    pub fn set_address<S: Into<String>>(&mut self, value: S) -> Result<&mut Address, XlsxError> {
         let org_value = value.into();
         let split_value: Vec<&str> = org_value.split('!').collect();
 
@@ -38,9 +40,9 @@ impl Address {
             self.sheet_name = split_value[0].to_string();
             self.range.set_range(split_value[1]);
         } else {
-            panic!("Non-standard address");
+            return Err(XlsxError::Io(Error::new(ErrorKind::Other, "Invalid address")));
         }
-        self
+        Ok(self)
     }
 
     pub fn get_address(&self) -> String {

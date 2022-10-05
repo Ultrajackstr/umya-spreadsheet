@@ -372,7 +372,7 @@ impl Chart {
                     .get_number_reference_mut()
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
                 values
                     .get_number_reference_mut()
                     .get_numbering_cache_mut()
@@ -885,7 +885,7 @@ impl Chart {
                 string_reference
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
 
                 let mut category_axis_data = CategoryAxisData::default();
                 category_axis_data.set_string_reference(string_reference);
@@ -898,7 +898,7 @@ impl Chart {
                     .get_number_reference_mut()
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
                 values
                     .get_number_reference_mut()
                     .get_numbering_cache_mut()
@@ -1628,7 +1628,7 @@ impl Chart {
                     .get_number_reference_mut()
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
                 x_values
                     .get_number_reference_mut()
                     .get_numbering_cache_mut()
@@ -1643,7 +1643,7 @@ impl Chart {
                     .get_number_reference_mut()
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
                 y_values
                     .get_number_reference_mut()
                     .get_numbering_cache_mut()
@@ -1658,7 +1658,7 @@ impl Chart {
                     .get_number_reference_mut()
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
                 bubble_size
                     .get_number_reference_mut()
                     .get_numbering_cache_mut()
@@ -1985,7 +1985,7 @@ impl Chart {
                     .get_number_reference_mut()
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
                 x_values
                     .get_number_reference_mut()
                     .get_numbering_cache_mut()
@@ -2000,7 +2000,7 @@ impl Chart {
                     .get_number_reference_mut()
                     .get_formula_mut()
                     .get_address_mut()
-                    .set_address(area_chart_series);
+                    .set_address(area_chart_series).ok();
                 y_values
                     .get_number_reference_mut()
                     .get_numbering_cache_mut()

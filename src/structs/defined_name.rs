@@ -29,7 +29,7 @@ impl DefinedName {
 
     pub(crate) fn set_address<S: Into<String>>(&mut self, value: S) {
         let mut address = Address::default();
-        address.set_address(value);
+        address.set_address(value).ok();
         self.address = address;
     }
 

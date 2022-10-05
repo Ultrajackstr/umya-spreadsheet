@@ -29,7 +29,7 @@ impl Formula {
     }
 
     pub fn set_address_str<S: Into<String>>(&mut self, value: S) -> &mut Formula {
-        self.address.set_address(value);
+        self.address.set_address(value).ok();
         self
     }
 
